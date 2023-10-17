@@ -12,7 +12,7 @@ import anyio
 import dagger
 from connector_ops.utils import ConnectorLanguage
 from pipelines.dagger.actions.system import docker
-from pipelines.models.bases import Step, StepResult, StepStatus
+from pipelines.models.steps import Step, StepResult, StepStatus
 from pipelines.pipeline.connectors.context import ConnectorContext
 from pipelines.pipeline.connectors.format.steps import python_connectors
 from pipelines.pipeline.connectors.reports import ConnectorReport
