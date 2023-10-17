@@ -4,11 +4,15 @@
 
 from typing import Callable
 
+import pipelines.commands.groups.connectors.build
+import pipelines.commands.groups.connectors.format
+import pipelines.commands.groups.connectors.publish
+import pipelines.commands.groups.connectors.test
 import pytest
 from click.testing import CliRunner
 from connector_ops.utils import METADATA_FILE_NAME, ConnectorLanguage
 from pipelines.bases import ConnectorWithModifiedFiles
-from pipelines.commands.groups import connectors
+from pipelines.commands.groups.connectors import connectors
 from tests.utils import pick_a_random_connector
 
 
@@ -248,9 +252,9 @@ def click_context_obj():
 @pytest.mark.parametrize(
     "command, command_args",
     [
-        (connectors.test, []),
+        (pipelines.commands.groups.connectors.test.test, []),
         (
-            connectors.publish,
+            pipelines.commands.groups.connectors.publish.publish,
             [
                 "--spec-cache-gcs-credentials",
                 "test",
@@ -266,8 +270,8 @@ def click_context_obj():
                 "test",
             ],
         ),
-        (connectors.format_code, []),
-        (connectors.build, []),
+        (pipelines.commands.groups.connectors.format.format_code, []),
+        (pipelines.commands.groups.connectors.build.build, []),
     ],
 )
 def test_commands_do_not_override_connector_selection(

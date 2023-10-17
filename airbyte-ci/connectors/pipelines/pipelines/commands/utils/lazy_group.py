@@ -1,8 +1,9 @@
-
 # Source: https://click.palletsprojects.com/en/8.1.x/complex/
 
 import importlib
+
 import click
+
 
 class LazyGroup(click.Group):
     """
@@ -37,8 +38,5 @@ class LazyGroup(click.Group):
         cmd_object = getattr(mod, cmd_object_name)
         # check the result to make debugging easier
         if not isinstance(cmd_object, click.BaseCommand):
-            raise ValueError(
-                f"Lazy loading of {import_path} failed by returning "
-                "a non-command object"
-            )
+            raise ValueError(f"Lazy loading of {import_path} failed by returning " "a non-command object")
         return cmd_object
