@@ -4,9 +4,9 @@
 
 
 from pipelines.actions import environments
+from pipelines.helpers.utils import get_exec_result
 from pipelines.models.steps import StepResult
 from pipelines.pipelines.models.steps import GradleTask
-from pipelines.helpers.utils import get_exec_result
 
 
 class FormatConnectorCode(GradleTask):

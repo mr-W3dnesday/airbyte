@@ -3,10 +3,10 @@
 #
 
 import asyncer
-from pipelines.actions import environments
 import pipelines.dagger.containers.python
-from pipelines.models.steps import Step, StepResult
+from pipelines.actions import environments
 from pipelines.helpers.utils import with_exit_code, with_stderr, with_stdout
+from pipelines.models.steps import Step, StepResult
 
 
 class FormatConnectorCode(Step):
