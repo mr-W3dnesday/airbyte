@@ -5,8 +5,6 @@
 """This module is the CLI entrypoint to the airbyte-ci commands."""
 
 import importlib
-import os
-import subprocess
 from typing import List
 
 import click
@@ -24,9 +22,7 @@ from pipelines.utils import (
     transform_strs_to_paths,
 )
 
-from .groups.connectors import connectors
-from .groups.metadata import metadata
-from .groups.tests import test
+from .utils.lazy_group import LazyGroup
 
 # HELPERS
 
@@ -91,7 +87,15 @@ def get_modified_files(
 # COMMANDS
 
 
-@click.group(help="Airbyte CI top-level command group.")
+@click.group(
+    cls=LazyGroup,
+    help="Airbyte CI top-level command group.",
+    lazy_subcommands={
+        "connectors": "pipelines.commands.groups.connectors.connectors",
+        "metadata": "pipelines.commands.groups.metadata.metadata",
+        "test": "pipelines.commands.groups.tests.test",
+    },
+)
 @click.version_option(__installed_version__)
 @click.option("--is-local/--is-ci", default=True)
 @click.option("--git-branch", default=get_current_git_branch, envvar="CI_GIT_BRANCH")
@@ -175,11 +179,6 @@ def airbyte_ci(
         main_logger.info(f"Pull Request Number: {pull_request_number}")
         main_logger.info(f"Pipeline Start Timestamp: {pipeline_start_timestamp}")
         main_logger.info(f"Modified Files: {ctx.obj['modified_files']}")
-
-
-airbyte_ci.add_command(connectors)
-airbyte_ci.add_command(metadata)
-airbyte_ci.add_command(test)
 
 if __name__ == "__main__":
     airbyte_ci()
